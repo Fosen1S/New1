@@ -1,0 +1,154 @@
+---library
+local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/AikaV3rm/UiLib/master/Lib.lua')))()
+local w = library:CreateWindow("Project XL")
+local b = w:CreateFolder("Spam") 
+---------------------------------------------------
+--// Settings 
+local set = {
+    enabled = false,
+    clip = true,
+    distance = 6,
+    tool = false,
+    quest = "",
+    angle = "Below",
+    alwaysStand = true,
+    instaKill = true,
+    abs = {E=false,R=false,C=false,F=false,X=false}
+}
+---------------------------------------------------
+--// Declarations 
+local quests = {strings={},values={}}
+local toolCache = {}
+local player = game.Players.LocalPlayer
+local live = workspace.Live  
+local localQuests = player.Quests
+local questRemote = game.ReplicatedStorage.RemoteEvents.ChangeQuestRemote -- :FireSever(questValue) 
+local combatRemote = game.ReplicatedStorage.RemoteEvents.BladeCombatRemote -- :FireSever(bool,vec3,cf)
+---------------------------------------------------
+--// Old Data 
+local lvl = player.PlayerValues.Level.Value
+local gold = player.PlayerValues.Gold.Value
+---------------------------------------------------
+--// Storing Quests 
+for i,v in pairs(game.ReplicatedStorage.Quests:GetChildren()) do 
+    if v.Name:match('%d') then 
+---------------------------------------------------
+        --// Strings 
+        table.insert(quests.strings,v.Name)
+---------------------------------------------------
+        --// Remote Value
+        quests.values[v.Name] = v
+    end
+end 
+---------------------------------------------------
+--// Primary Loop 
+coroutine.wrap(function()
+    while wait(nil) do 
+
+        if set.enabled then 
+            --// Quest 
+            local q = set.quest
+            local allow = (#q>0 and localQuests[q].Value)
+
+            if not allow then 
+                questRemote:FireServer(quests.values[q])
+                allow = true 
+            end 
+------------------------------------------------------------------------------------------------------
+
+            if allow then 
+                --// Equip
+                if not player.Character:FindFirstChildWhichIsA('Tool') then 
+                    (not set.tool and player.Backpack:FindFirstChildWhichIsA('Tool') or set.tool and player.Backpack[set.tool]).Parent = player.Character
+                end 
+------------------------------------------------------------------------------------------------------                
+                --// Farm 
+                for i,v in pairs(live:GetChildren()) do
+                    if q:find(v.Name) then
+                        --// Checks
+------------------------------------------------------------------------------------------------------                        
+                        local root = v:FindFirstChild('HumanoidRootPart')
+                        local hum = v:FindFirstChild('Humanoid')
+                        local origin = player.Character:FindFirstChild('HumanoidRootPart')
+
+                        while (root and hum and origin) and (hum.Health>0) and (game.RunService.Stepped:wait()) and (localQuests[q].Value) do 
+                            origin.CFrame = root.CFrame * CFrame.new(0,(set.angle == 'Above' and set.distance or set.angle == 'Below' and -set.distance or 0),(set.angle == 'Behind' and set.distance or 0)) * (((set.angle == 'Above' or set.angle == 'Below') and not set.alwaysStand) and CFrame.Angles(math.rad(set.angle == 'Above' and -90 or set.angle == 'Below' and 90),0,0) or (CFrame.new()))
+                            if set.instaKill then 
+                                combatRemote:FireServer(true,nil,nil)
+                                if hum.Health < hum.MaxHealth then 
+                                    hum.Health = 0 
+                                end 
+                            else 
+                                combatRemote:FireServer(true,nil,nil)
+                            end 
+                        end 
+                    end 
+                end 
+
+            end 
+
+        end 
+    end 
+end)()
+------------------------------------------------------------------------------------------------------
+--// Render Loops 
+game.RunService.Stepped:Connect(function()
+    local hum = player.Character:FindFirstChild('Humanoid')
+    if hum and set.clip and set.enabled then 
+        hum:ChangeState(11)
+    end 
+    setsimulationradius(math.huge,math.huge) -- insta kill
+end)
+------------------------------------------------------------------------------------------------------
+b:Toggle("Spam Skill GokuBlack",function(t)
+_G.on = t
+if _G.on == false then return end
+while _G.on do
+  wait()
+
+local args = {
+    [1] = "Fired",
+    [2] = Vector3.new(-1282.3286132813, 361.02105712891, 12646.750976563),
+    [3] = CFrame.new(Vector3.new(-1282.3286132813, 361.02105712891, 12646.750976563), Vector3.new(0.041996143758297, 0.000824052200187, 0.99911749362946)),
+    [4] = 1
+}
+
+game:GetService("ReplicatedStorage").RemoteEvents.SuperBlackKamehamehaRemote:FireServer(unpack(args))
+end
+end)
+b:Toggle("Spam Skill Broly",function(c)
+    _G.on = c
+if _G.on == false then return end
+while _G.on do
+  wait()
+
+
+local args = {
+    [1] = false,
+    [2] = Vector3.new(1440.7224121094, -5425.794921875, 10270.501953125),
+    [3] = CFrame.new(Vector3.new(1440.7224121094, -5425.794921875, 10270.501953125), Vector3.new(0.31617188453674, -0.58314788341522, 0.74831414222717)),
+    [4] = 1,
+    [5] = Vector3.new(0.31484857201576, -0.58259570598602, 0.74930137395859)
+}
+
+game:GetService("ReplicatedStorage").RemoteEvents.TrapShooterRemote:FireServer(unpack(args))
+end
+end)
+b:Toggle("Spam Skill Super Vegeta",function(b)
+_G.on = b
+if _G.on == false then return end
+while _G.on do
+  wait()
+  
+local args = {
+    [1] = false,
+    [2] = Vector3.new(315.97888183594, -436.34982299805, -7480.0810546875),
+    [3] = CFrame.new(Vector3.new(315.97888183594, -436.34982299805, -7480.0810546875), Vector3.new(0.23182965815067, -0.081762984395027, -0.96931409835815)),
+    [4] = 1,
+    [5] = Vector3.new(0.2320327013731, -0.08132965862751, -0.96930187940598)
+}
+
+game:GetService("ReplicatedStorage").RemoteEvents.ConsecutiveEnergyBlastRemote:FireServer(unpack(args))
+end
+end)
+b:DestroyGui()
