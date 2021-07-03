@@ -137,14 +137,15 @@ end
 for _,v in pairs(bosses) do 
     questDropdown:Add(v)
 end 
-primaryTab.AddSlider(nil,'Distance',function(val) set.distance = val end,{min=0,max=10,def=set.distance,readonly=false})
-primaryTab.AddSwitch(nil,'Start',false,function(bool) set.enabled = bool end)
-local toolDropdown = abSetFolder.AddDropdown(nil,'Select tool',function(val) set.tool = val end)
+local toolDropdown = primaryTab.AddDropdown(nil,'Select tool',function(val) set.tool = val end)
 for i,item in pairs(player.Backpack:GetChildren()) do 
     if item:IsA('Tool') then 
         toolCache[item.Name] = toolDropdown:Add(item.Name)
     end 
 end
+primaryTab.AddSlider(nil,'Distance',function(val) set.distance = val end,{min=0,max=10,def=set.distance,readonly=false})
+primaryTab.AddSwitch(nil,'Start',false,function(bool) set.enabled = bool end)
+
 player.Backpack.ChildAdded:Connect(function(item)
     if not toolCache[item.Name] then 
         toolCache[item.Name] = toolDropdown:Add(item.Name)
