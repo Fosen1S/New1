@@ -121,7 +121,7 @@ for i,v in pairs(getconnections(player.Idled)) do
 end
 
 --// UI
-local win = imgui.AddWindow(nil,'Project XL 4.85',{main_color = Color3.fromRGB(40,40,40),min_size = Vector2.new(350,450),toggle_key = Enum.KeyCode.RightShift,can_resize = true})
+local win = imgui.AddWindow(nil,'Project XL 4.9',{main_color = Color3.fromRGB(40,40,40),min_size = Vector2.new(350,450),toggle_key = Enum.KeyCode.RightShift,can_resize = true})
 
 --// Tabs
 local primaryTab = win.AddTab(nil,'Farm') --[[]]
