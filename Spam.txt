@@ -1,6 +1,6 @@
 ---library
 local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/AikaV3rm/UiLib/master/Lib.lua')))()
-local w = library:CreateWindow("Project XL 4.85")
+local w = library:CreateWindow("Project XL 4.9")
 local b = w:CreateFolder("Spam") 
 ---------------------------------------------------
 --// Settings 
